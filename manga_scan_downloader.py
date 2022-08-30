@@ -1,73 +1,38 @@
-import base64
-import hashlib
 import logging
+import multiprocessing
 import os
-import queue
-import sys
+import re
 import threading
 import time
 import zipfile
-from urllib.parse import urljoin
 
-import lxml.html
 import requests
-from bs4 import BeautifulSoup, Tag
-from lxml import etree
-from selenium import webdriver
-from selenium.webdriver.common.by import By
+import urllib3.exceptions
 
+import constants
+import downloaders
+import parsers
+import utils
 from manga_data import data_list
-
-# logger = logging.getLogger()
-# logger.addHandler(logging.StreamHandler(sys.stdout))
-
-logging.basicConfig(
-	level=logging.INFO,
-    format="[%(levelname)s] %(message)s",
-    handlers=[
-        logging.FileHandler("debug.log"),
-        logging.StreamHandler()
-    ]
-)
-# Hash function - "sha1" or "b64"
-HASH_FUNCTION = "b64"
-
-# Folder output
-OUTPUT = "~/Documents/webtoons"
-OUTPUT = os.path.normpath(os.path.expanduser(OUTPUT))
-
-# Ddl threads
-USE_THREADS = True
-MAX_THREADS = 3
-USE_CACHE = True
-RELOAD_MAIN = False
-TIMEOUT = 15
-
-# Parser - "lxml" or "bs4"
-USE_PARSER = "lxml"
-
-# Download library - "selenium" or "requests"
-USE_DDL = "requests"
-
-# Logs
-LOG_PARSE = True
-LOG_DDL = True
-LOG_DDL_FULL = False
-LOG_ARCHIVE = True
 
 
 class MangaDownloader():
-	def __init__(self, data_list):
-		self.data_list = data_list
-		
-		if not os.path.exists(OUTPUT):
-			os.mkdir(OUTPUT)
+	def __init__(self, data_list=[], log_queue=None):
 
-		self.threads, self.archive_threads = [], []
-		
-		self.event = threading.Event() # File downloaded event
-		self.stop_event = threading.Event() # Archive thread stop event
-		self.que = queue.Queue()
+		if not os.path.exists(constants.OUTPUT):
+			os.mkdir(constants.OUTPUT)
+
+		self.image_threads, self.chapter_threads = [], []
+		self.archive_thread, self.downloader_thread = None, None
+
+		# File downloaded / Create archive event
+
+		self.manager = multiprocessing.Manager()
+		self.image_queue = self.manager.Queue()
+		self.chapter_queue = self.manager.Queue()
+		self.archive_queue = self.manager.Queue()
+		self.downloader_queue = self.manager.Queue()
+		self.status_queue = log_queue or utils.EmptyQueue()
 
 		self.LOG_DDL_last = time.time()
 		self.LOG_DDL_count = 0
@@ -76,103 +41,242 @@ class MangaDownloader():
 		if not os.path.exists(self.hashes_path):
 			os.makedirs(self.hashes_path)
 
-		if USE_DDL == "selenium":
-			ddl = SeleniumDownloader
-		elif USE_DDL == "requests":
-			ddl = RequestsDownloader
+		if constants.USE_PARSER == "lxml":
+			self.parser = parsers.LxmlParser()
+		elif constants.USE_PARSER == "bs4":
+			self.parser = parsers.Bs4Parser()
 
-		with ddl() as self.downloader:
-			for data in self.data_list:
-				try:
-					self.handle_data(data)
-				except Exception as e:
-					logging.error(f'Error on url {data["url"]}: {e}')
-					raise
+		# Start download threads
+		self.init_threads()
 
-			if USE_THREADS:
-				self.stop()
+		if data_list:
+			self.download(data_list)
+
+	def log(self, *args):
+		self.status_queue.put(args)
+
+	def download(self, data_list, no_thread=False):
+		if not data_list:
+			return
+
+		for data in data_list:
+			try:
+				self.handle_data(data)
+			except Exception as e:
+				logging.error(f'Error on url {data["url"]}: {e}')
+				raise
+
+		self.stop_threads()
 
 		logging.info("Done!")
 
 	def __call__(self, data):
 		return self.handle_data(data)
 
-	def __enter__(self):
-		pass
-
-	def __exit__(self, *args):
-		return True
-
 	def handle_data(self, data):
-		link_data, title = self.parse_url(data)
+		title, chapter_links = self.parse_main_page(data)
 		if title is None:
 			return
-		root, img_folder, downloaded = self.prepare_files(link_data, title)
+		chapters_count = len(chapter_links)
 
-		if USE_THREADS:
-			self.init_threads(root, link_data, title)
+		# Prepare folder
+		self.prepare_files(title)
 
-		if not downloaded:
-			for link, imgs in reversed(list(link_data.items())):
-				for l_data in imgs:
-					# file = ''.join(l for l in l_data['desc'] if l.isalnum() or l in "_-") + ".jpg"
-					file = self.format_text(l_data['desc']) + ".jpg"
-					folder = os.path.normpath(os.path.join(img_folder, self.format_text(l_data['path'])))
+		# Download started
+		logging.info(
+			f'{chapters_count} chapters found for manga: {title}, downloading...')
+		self.log(utils.Status.DOWNLOAD, data['url'], title)
+
+		# Parse chapter pages
+		self.log(utils.Status.PARSE, data['url'], 3, chapters_count)
+
+		def natural_sort_key(s):
+			# Sort filename without zero-padded numbers
+			return [int(text) if text.isdigit() else text.lower()
+					for text in re.split('([0-9]+)', s)]
+
+		chapter_links = sorted(chapter_links.items(),
+							   key=lambda e: natural_sort_key(e[0]))
+
+		threads = []
+		self.last_log = time.time()
+		for i, (idx, link) in enumerate(chapter_links):
+			kwargs = {
+				'title': title,
+				'data': data,
+				'i': i,
+				'idx': self.format_text(idx),
+				'link': link,
+				'chapters_count': chapters_count
+			}
+			self.chapter_queue.put(kwargs)
+
+		for t in threads:
+			t.join()
+
+		# Done parsing main page and all chapters pages
+		self.log(utils.Status.PARSE, data['url'], -1)
+
+	def handle_chapter(self, title, data, i, idx, link, chapters_count):
+		# Parse one chapter
+		chapter_data = self.parse_chapter(data, idx, link)
+
+		if len(chapter_data) == 0:
+			logging.warn(f"No data for chapter {i+1} - {title}")
+			return
+
+		if constants.LOG_PARSE and (time.time()-self.last_log > 5):
+			# Log time in console
+			logging.info(f"Parsed - {title}: {i+1} / {chapters_count}")
+			self.last_log = time.time()
+
+		# Initialize thread counter for archive thread
+		counter = utils.Counter(manager=self.manager)
+
+		folder = os.path.normpath(os.path.join(
+			constants.OUTPUT,
+			title,
+			"images",
+			str(i).zfill(5) + ' - ' + self.format_text(chapter_data[0]['path'])))
+
+		# Download images
+		for img_data in chapter_data:
+			self.log(utils.Status.IMAGES, link, img_data['url'], 0)
+
+			# Get image path
+			file = self.format_text(img_data['desc']) + ".jpg"
+			path = os.path.join(folder, file)
+
+			# Create folder
+			if not os.path.exists(folder):
+				try:
+					os.mkdir(folder)
+				except Exception as e:
+					# Can happen if two threads are trying to create the same folder
+					print(f"Can't create folder {folder}: {e}")
 					if not os.path.exists(folder):
-						os.mkdir(folder)
-					path = os.path.join(folder, file)
-					args = (l_data['url'], path, data['headers'])
-					if USE_THREADS:
-						self.que.put(args)
-					else:
-						self.ddl(*args)
-				if USE_THREADS:
-					self.que.put("UPDATE")
-				else:
-					self.create_archives(root, link_data, title)
+						continue
 
+			# Download image
+			kwargs = {
+				'url': img_data['url'],
+				'path': path,
+				'headers': data.get('headers', {}),
+				'cookies': data.get('cookies', {}),
+				'counter': counter
+			}
+			counter.add()
+			if constants.USE_THREADS:
+				self.image_queue.put(kwargs)
+			else:
+				self.dll(**kwargs)
 
-		if USE_THREADS:
-			self.event.set()
-		else:			
-			self.create_archives(root, link_data, title)
+		# Create archive
+		kwargs = {
+			'title': title,
+			'images_path': folder,
+			'chapter_idx': idx,
+			'chapter_data': chapter_data,
+			'chapters_count': chapters_count,
+			'counter': counter
+		}
+		if constants.USE_THREADS:
+			self.archive_queue.put(kwargs)
+		else:
+			self.create_archives(**kwargs)
 
-	def stop(self):
-		for i in range(MAX_THREADS*2):
-			self.que.put("STOP")
-
+	def stop_threads(self):
 		logging.info("Stopping...")
 
-		alive_threads = lambda: list(filter(lambda e: e.is_alive(), self.threads))
-		while len(alive_threads()) > 0:
-			logging.info(f'{len(alive_threads())} / {len(self.threads)} threads left')
-			t = next(iter(alive_threads()), None)
-			if t is not None:
-				t.join()
+		self.downloader_queue.join()
+
+		self.chapter_queue.join()
+		self.image_queue.join()
+		self.archive_queue.join()
+
+		self.downloader_queue.put("STOP")
+		self.downloader_thread.join()
+
+		for i in range(constants.MAX_IMAGE_THREADS*2):
+			self.image_queue.put("STOP")
+
+		def thread_filter(thread_list): return next(
+			filter(lambda t: t.is_alive(), thread_list), None)
+
+		thread = thread_filter(self.image_threads)
+		while thread is not None:
+			thread.join()
+			thread = thread_filter(self.image_threads)
+
+		for i in range(constants.MAX_CHAPTER_THREADS*2):
+			self.chapter_queue.put("STOP")
+
+		thread = thread_filter(self.chapter_threads)
+		while thread is not None:
+			thread.join()
+			thread = thread_filter(self.chapter_threads)
+
+		self.archive_queue.put("STOP")
+		self.archive_thread.join()
 
 		logging.info("Done downloading")
 
-		self.stop_event.set()
-		self.event.set()
-		for t in self.archive_threads:
-			t.join()
-
-	def init_threads(self, root, link_data, title):
-		
-		for i in range(max(0, MAX_THREADS - len(self.threads))):
-			t = threading.Thread(target=self.ddl_thread_worker, daemon=True)
+	def init_threads(self):
+		# Start chapter parser threads
+		for i in range(max(0, constants.MAX_CHAPTER_THREADS - len(self.chapter_threads))):
+			t = threading.Thread(
+				target=utils.queue_waiter,
+				kwargs={
+					'que': self.chapter_queue,
+					'func': self.handle_chapter,
+					'method': 'func'},
+				name=f'Thread-chapter_queue'
+			)
 			t.start()
-			self.threads.append(t)
+			self.chapter_threads.append(t)
 
-		t = threading.Thread(target=self.archive_thread, args=(root, link_data, title), daemon=True)
-		t.start()
-		self.archive_threads.append(t)
+		# Start image downloader threads
+		for i in range(max(0, constants.MAX_IMAGE_THREADS - len(self.image_threads))):
+			t = threading.Thread(
+				target=utils.queue_waiter,
+				kwargs={
+					'que': self.image_queue,
+					'func': self.dll,
+					'method': 'func'},
+				name=f'Thread-image_queue'
+			)
+			t.start()
+			self.image_threads.append(t)
 
-	def prepare_files(self, link_data, title):
-		link_count = sum(len(e) for e in link_data.values())
-		logging.info(f'{link_count} links found, downloading...')
+		if self.archive_thread is None:
+			# Start archive creator threads
+			t = threading.Thread(
+				target=utils.queue_waiter,
+				kwargs={
+					'que': self.archive_queue,
+					'func': self.create_archives,
+					'method': 'func'},
+				name=f'Thread-archive_queue'
+			)
+			t.start()
+			self.archive_thread = t
 
-		root = os.path.join(OUTPUT, title)
+		if self.downloader_thread is None:
+			# Start main downloader thread (for self.get())
+			t = threading.Thread(
+				target=utils.queue_waiter,
+				kwargs={
+					'que': self.downloader_queue,
+					'func': self.get,
+					'method': 'func'},
+				name=f'Thread-downloader_queue'
+			)
+
+			t.start()
+			self.downloader_thread = t
+
+	def prepare_files(self, title):
+		root = os.path.join(constants.OUTPUT, title)
 		if not os.path.exists(root):
 			os.mkdir(root)
 
@@ -181,450 +285,300 @@ class MangaDownloader():
 			if not os.path.exists(path):
 				os.mkdir(path)
 
-		img_folder = os.path.join(root, "images")
-
-		return root, img_folder, False
-
-	def parse_url(self, data):
-		link_data = {}
-		if LOG_PARSE:
+	def parse_main_page(self, data):
+		if constants.LOG_PARSE:
 			logging.info(f"Parsing url: {data['url']}")
-		p = self.get(data['url'], h=data['headers'], force_url=True, no_cache=RELOAD_MAIN)
-		if p is None:
+
+		# Get main page
+		self.log(utils.Status.PARSE, data['url'], 0)
+
+		page = self.get(data['url'], h=data['headers'],
+						force_url=True, no_cache=constants.RELOAD_MAIN)
+		if page is None:
+			self.log(utils.Status.PARSE, data['url'], -1)
 			return {}, None
 
-		if USE_PARSER == "lxml":
-			p_tree = etree.ElementTree(lxml.html.fromstring(p))
-			main_list = p_tree.xpath(data['xpth']['main_list'])[0]
+		# Parse main page
+		self.log(utils.Status.PARSE, data['url'], 1)
 
-			links = [c.xpath(data['xpth']['main_list_item'])[0] for c in main_list]
-			if USE_DDL == "requests":
-				links = [child.get('href') for child in links]
-			elif USE_DDL == "selenium":
-				links = [p_tree.getpath(child) for child in links]
+		title, links = self.parser.main_page(data, page)
 
-			links = [urljoin(data['url'], l) for l in links]
-
-			title = p_tree.xpath(data['title'])[0].text
-
-		elif USE_PARSER == "bs4":
-			p_soup = BeautifulSoup(p, 'html.parser')
-			main_list = p_soup.find("li", {"id": "ceo_latest_comics_widget-3"}).ul.find_all("a")
-			links = [child for child in main_list]
-			if USE_DDL == "requests":
-				links = [child['href'] for child in links]
-			elif USE_DDL == "selenium":
-				# TODO
-				raise NotImplementedError("bs4 parser not implemented with selenium!")
-			title = p_soup.title.text
-
-		# title = ''.join(l for l in title if l.isalnum() or l in "_ -")
 		title = self.format_text(title)
 
-		last_log = time.time()
-		for i, link in enumerate(links):
-			l = self.get(link, h=data['headers'])
-			if l is None:
-				continue
-	
-			if LOG_PARSE and (time.time()-last_log > 5 or i == len(links)-1):
-				logging.info(f"Parsed: {i+1} / {len(links)}")
-				last_log = time.time()
+		# Done parsing main page
+		self.log(utils.Status.PARSE, data['url'], 2)
 
-			if USE_PARSER == "lxml":
-				l_tree = etree.ElementTree(lxml.html.fromstring(l))
-				l_data = []
-				root = l_tree.xpath(data['xpth']['img_list'])[0]
-				for i, child in enumerate(root.xpath(data['xpth']['img_list_item'])):
-					if child.tag == 'img':
-						tmp = {
-							'url': child.get(data['img_url']),
-							'desc': str(i) + "-" + child.get(data['img_desc']),
-							'path': f'Chapter {str(len(links) - len(link_data))}'
-						} 
+		return title, links
 
-						l_data.append(tmp)
-					else:
-						logging.info(f'{link} {child} {child.tag}')
-						raise Exception
+	def parse_chapter(self, data, chapter_idx, chapter_link, no_cache=None):
+		# Get chapter page
+		self.log(utils.Status.CHAPTER, chapter_link, 0)
 
-			elif USE_PARSER == "bs4":
-				l_soup = BeautifulSoup(l, 'lxml')
-				l_data = []
-				for i, child in enumerate(l_soup.find("main").article.div.div.find_all("img")):
-					l_data.append(
-						{
-							'url': child['src'],
-							'desc': str(i) + "-" + child['alt'],
-							'path': str(len(link_data))
-						} 
-					)
+		chapter_page = None
+		try:
+			chapter_page = self.get(
+				chapter_link,
+				h=data['headers'],
+				no_cache=no_cache or constants.RELOAD_MAIN
+			)
+		except Exception as e:
+			logging.error(f'{e} on chapter {chapter_link}')
 
-			if l_data == []:
-				logging.info(f"{link} {l_tree.xpath(data['xpth']['img_list'])[0].xpath(data['xpth']['img_list_item'])}")
-				raise Exception
-			link_data[link] = l_data
+		if chapter_page is None:
+			# No page found, abort
+			self.log(utils.Status.CHAPTER, chapter_link, -1)
 
-		return link_data, title
+			return []
 
-	def b64_hash(self, url):
-		return base64.b64encode(url.encode("utf-8")).decode().replace('/', '_')
+		elif chapter_page == '':
+			return self.parse_chapter(data, chapter_idx, chapter_link, True)
 
-	def sha1_hash(self, url):
-		return hashlib.sha1(url.encode("utf-8")).hexdigest()
+		# Parse chapter page
+		self.log(utils.Status.CHAPTER, chapter_link, 1)
 
-	def get(self, url, h={}, force_url=False, no_cache=False):
-		if USE_CACHE:
-			if HASH_FUNCTION == "b64":
-				url_hash = self.b64_hash(url)
-			elif HASH_FUNCTION == "sha1":
-				url_hash = self.sha1_hash(url)
+		# path = f'Chapter {str(chapter_idx).zfill(5)}'
+		chapter_data = self.parser.chapter(chapter_page, chapter_idx, data)
 
-			path = os.path.join(self.hashes_path, url_hash)
+		# Done parsing chapter page
+		self.log(utils.Status.CHAPTER, chapter_link, -1)
+		return chapter_data
 
-		if USE_CACHE and not no_cache and os.path.exists(path):
-			with open(path, 'r', encoding="utf-8") as f:
-				p = f.read()
-			return p
+	def get(self, url, h={}, force_url=False, no_cache=False, output=None):
+		kwargs = {
+			'url': url,
+			'h': h,
+			'force_url': force_url,
+			'no_cache': no_cache,
+		}
 
-		else:
-			try:
-				p = self.downloader.get(url, h, force_url=force_url)
-				
-			except Exception as e:
-				logging.warning(f'Error on url: {url}: {e}')
-				return None
+		thread = threading.current_thread()
+		if thread.name != self.downloader_thread.name:
+			# Send download to main download thread
+			output = self.manager.Queue()
+			kwargs['output'] = output
 
-			else:
-				if USE_CACHE:
-					with open(path, 'w', encoding="utf-8") as f:
-						f.write(p)
-				return p
+			self.downloader_queue.put(kwargs)
+			out = output.get()
+			return out
 
-	def ddl(self, url, path, h={}):
-		if not os.path.exists(path):
-			if LOG_DDL_FULL:
-				logging.info(f"Downloading: {url}")
-			if LOG_DDL:
-				self.LOG_DDL_count += 1
-				if time.time()-self.LOG_DDL_last > 5:
-					logging.info(f"Downloaded: {self.LOG_DDL_count} images - last img: '{path}'")
-					self.LOG_DDL_last = time.time()
-					self.LOG_DDL_count = 0
-			try:
-				r = self.downloader.get(url, h=h, decode=False)
-			except Exception as e:
-				if url in str(e):
-					logging.warning(f"Error: {e}")
-				else:
-					logging.warning(f"Error on url: {url} - {e}")
-			else:
-				with open(path, 'wb') as f:
-					f.write(r)
-
-	def ddl_thread_worker(self):
-		while True:
-			data = self.que.get()
-			if data == "STOP":
-				return
-			elif data == "UPDATE":
-				self.event.set()
-			else:
-				self.ddl(*data)
-
-	def create_archives(self, root, data, title):
-		def create_thread(archive_path, imgs):
-			with zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED) as z:
-				padding = len(str(len(imgs)))
-				for i, l_data in enumerate(imgs):
-					# file = ''.join(l for l in l_data['desc'] if l.isalnum() or l in "_-") + ".jpg"
-					file = self.format_text(l_data['desc']) + ".jpg"
-					folder = self.format_text(l_data['path'])
-					path = os.path.join(img_folder, folder, file)
-					arcname = str(i).zfill(padding) + '.jpg'
-					z.write(path, arcname=arcname)
-
-		threads = []
-		all_exists = True
-
-		img_folder = os.path.join(root, "images")
-		for i, tmp in enumerate(reversed(list(data.items()))):
-			link, imgs = tmp
-			complete = True
-
-			dirpath = os.path.join(
-					img_folder, 
-					self.format_text(imgs[0]['path']) # TODO - Do not crash if no img found
-				)
-			if not os.path.exists(dirpath):
-				try:
-					os.mkdir(dirpath)
-				except FileExistsError:
-					# Another thread has already created the folder
-					pass
-				files = []
-			else:
-				files = os.listdir(dirpath)
-			for l_data in imgs:
-				# file = ''.join(l for l in l_data['desc'] if l.isalnum() or l in "_-") + ".jpg"
-				file = self.format_text(l_data['desc']) + ".jpg"
-				if file not in files:
-					complete = False
-					all_exists = False
-					# logging.info(f'{file} not in {files}')
-					break
-
-			if complete: # All files have been downloaded
-				archive_path = os.path.join(root, "archives", f'{title}-{str(i+1).zfill(len(str(len(data))))}.cbz')
-				if not os.path.exists(archive_path):
-					if LOG_ARCHIVE:
-						logging.info(f"Writing archive {i+1}/{len(data)}: {archive_path}")
-					t = threading.Thread(target=create_thread, args=(archive_path, imgs), daemon=True)
-					threads.append(t)
-					t.start()
-
-		for t in threads:
-			if t.is_alive():
-				t.join()
-
-		if all_exists:
-			logging.info(f"All archives created for title: {title} {len(data.keys())}")
-		return all_exists
-
-	def archive_thread(self, *args):
-		global root	
-		while not self.stop_event.is_set():
-			stop = self.create_archives(*args)
-			if stop or self.stop_event.is_set():
-				break
-			self.event.wait()
-
-	def format_text(self, text):
-		return ''.join(l for l in text if l.isalnum() or l in " _-")
-
-class IteratorDownloader():
-	def __init__(self, url, fields):
-		self.url, self.fields = url, fields
-
-		self.que = queue.Queue()
-		self.archive_event = threading.Event()
-		self.archive_thread = None
-		self.stop = False
-		self.threads = []
-		self.avoid = {}
-
-		if USE_DDL == "selenium":
-			ddl = SeleniumDownloader
-		elif USE_DDL == "requests":
-			ddl = RequestsDownloader
-
-		root, img_folder = self.prepare_files()
-
-		with ddl() as self.downloader:
-			self.init_threads(img_folder, root)
-
-			for f in self.iterator():
-				url = self.url.format(**f)
-				file = self.get_filename(f)
-
-				path = os.path.join(img_folder, file)
-				args = (url, path, f)
-				
-				self.que.put(args)
-			for i in range(max(1, MAX_THREADS)):
-				self.que.put("STOP")
-
-			self.download_all()
-			self.create_archives(img_folder, root)
-
-			self.finish()
-
-	def __enter__(self):
-		pass
-
-	def __exit__(self, *args):
-		return True
-
-	def init_threads(self, img_folder, root):
-		self.archive_thread = threading.Thread(target=self.archive_thread_worker, args=(img_folder, root), daemon=True)
-		self.archive_thread.start()
-
-		if USE_THREADS:
-			for i in range(MAX_THREADS):
-				t = threading.Thread(target=self.ddl_thread_worker, daemon=True)
-				t.start()
-				self.threads.append(t)
-
-	def ddl(self, url, path, f, h={}):
-		if not os.path.exists(path):
-			if f['chapter'] in self.avoid and self.avoid[f['chapter']] < f['episode']:
-				return "OUT"
-
-			if self.stop:
-				return "OUT"
-
-			if LOG_DDL:
-				logging.info(f"Downloading: {url}")
-			try:
-				r = self.downloader.get(url, h=h, decode=False)
-			except requests.exceptions.HTTPError as e:
-				if e.response is not None and e.response.status_code == 404:
-					if f['chapter'] in self.avoid:
-						if self.avoid[f['chapter']] > f['episode']:
-							self.avoid[f['chapter']] = f['episode']
-					else:
-						logging.info(f"Completed chapter: {f['chapter']}")
-						self.avoid[f['chapter']] = f['episode']
-
-					return "OK"
-				else:
-					logging.warning(f"Error on url: {url} - {e}")
-					if isinstance(e, requests.exceptions.NewConnectionError):
-						return "CANCEL"
-					return "ERROR"
-			except Exception as e:
-				logging.warning(f"Error on url: {url} - {e}")
-			else:
-				with open(path, 'wb') as file:
-					file.write(r)
-
-			return "OK"
-
-	def ddl_thread_worker(self):
-		while True:
-			data = self.que.get()
-			if data == "STOP":
-				return
-			status = self.ddl(*data)
-			if status == "OK":
-				self.archive_event.set()
-			elif status == "RETRY":
-				self.que.put(data)
-			elif status == "CANCEL":
-				self.stop = True
-				break
-
-	def create_archives(self, img_folder, root):
-		files = os.listdir(img_folder)
-
-		for chap, max_eps in list(self.avoid.items()):
-			complete = True
-			for eps in range(self.fields['episode'][0], max_eps):
-				file = self.get_filename({'':fields['title'], 'chapter': chap, 'episode': eps})
-				if file not in files:
-					complete = False
-					break
-			if complete: # All files have been downloaded
-				archive_path = os.path.join(root, "archives", f'{self.fields["title"]}-{chap}.cbz')
-				if not os.path.exists(archive_path):
-					if LOG_ARCHIVE:
-						logging.info(f"Writing archive: {archive_path}")
-					with zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED) as z:
-						eps_padding = len(str(max_eps))
-						for eps in range(self.fields['episode'][0], max_eps):
-							file = f"{fields['title']}-chapter{str(chap).zfill(4)}-episode{str(eps).zfill(eps_padding)}.jpg"
-							path = os.path.join(img_folder, file)
-							z.write(path, arcname=file)
-
-	def archive_thread_worker(self, *args):
-		while not self.stop:
-			self.archive_event.wait()
-			self.create_archives(*args)
-		self.create_archives(*args)
-
-	def download_all(self):
-		if not USE_THREADS:
-			self.ddl_thread_worker()
-
-	def prepare_files(self):
-		root = os.path.join(OUTPUT, "iterator")
-		if not os.path.exists(root):
-			os.mkdir(root)
-
-		for sub in ("images", "archives"):
-			path = os.path.join(root, sub)
-			if not os.path.exists(path):
-				os.mkdir(path)
-
-		img_folder = os.path.join(root, "images")
-
-		return root, img_folder
-
-	def get_filename(self, arg):
-		return "-".join("".join(map(str, e)) for e in arg.items()) + ".jpg"
-
-	def iterator(self):
-		for chap in range(self.fields['chapter'][0], self.fields['chapter'][1]+1):
-			for ep in range(self.fields['episode'][0], self.fields['episode'][1]+1):
-				yield {'': fields['title'], 'chapter': chap, 'episode': ep}
-
-	def finish(self):
-		if len(self.threads) == 0:
+		if output is not None:
+			# Create a waiter for response
+			# Put data in output
+			utils.queueFunction(output, self.get, kwargs=kwargs)
 			return
 
-		for t in self.threads:
-			t.join()
+		if constants.USE_CACHE and not no_cache:
+			# Try to use cached data
+			if constants.HASH_FUNCTION == "b64":
+				url_hash = utils.b64_hash(url)
+			elif constants.HASH_FUNCTION == "sha1":
+				url_hash = utils.sha1_hash(url)
 
-		logging.info("Everything downloaded!")
+			# Compute path from hashed url
+			path = os.path.join(self.hashes_path, url_hash)
 
-		self.stop = True
-		self.archive_thread.join()
+			if os.path.exists(path):
+				with open(path, 'r', encoding="utf-8") as f:
+					p = f.read()
+				return p
 
-class RequestsDownloader:
-	def __init__(self):
-		self.session = requests.Session()
+		# Request data
+		try:
+			p = self.get_downloader().get(url, h, force_url=force_url)
 
-	def get(self, url, h={}, decode=True, **_):
-		r = self.session.get(url, headers=h, timeout=TIMEOUT)
-		r.raise_for_status()
-		
-		out = r.content
-		if decode:
-			out = out.decode(encoding='UTF-8', errors='replace')
+		except Exception as e:
+			logging.warning(f'Error on url: {url}: {e}')
+			return None
 
-		return out
-
-	def __enter__(self):
-		return self
-
-	def __exit__(self, *args):
-		self.session.close()
-
-class SeleniumDownloader:
-	def __init__(self, *_):
-		executable_path = r'C:\Program Files\geckodriver\geckodriver.exe'
-		opts = webdriver.FirefoxOptions()
-		# opts.headless = True
-		self.driver = webdriver.Firefox(executable_path=executable_path,options=opts)
-		self.driver.implicitly_wait(15)
-
-	def __enter__(self):
-		return self
-
-	def get(self, url, *_, force_url=False):
-		if force_url:
-			self.driver.get(url)
 		else:
-			self.driver.back()
-			self.driver.find_element(By.XPATH, url).click()
+			if constants.USE_CACHE:
+				# Write new data to cache
+				with open(path, 'w', encoding="utf-8") as f:
+					f.write(p)
+			return p
 
-		return self.driver.page_source
+	@classmethod
+	def get_downloader(self):
+		if hasattr(self, 'downloader'):
+			return self.downloader
 
-	def __exit__(self, *args):
-		self.driver.quit()
+		if constants.USE_DDL == "selenium":
+			self.downloader = downloaders.SeleniumDownloader()
+		elif constants.USE_DDL == "requests":
+			self.downloader = downloaders.RequestsDownloader()
+		return self.downloader
+
+	@classmethod
+	def dll(self, url, path, headers={}, cookies={}, counter=None, tentative=0):
+		try:
+			if not os.path.exists(path):
+				# if constants.LOG_DDL:
+				# 	self.LOG_DDL_count += 1
+				# 	if time.time()-self.LOG_DDL_last > 5:
+				# 		timestamp = datetime.now().strftime('%H:%M:%S')
+				# 		logging.info(
+				# 			f"[{timestamp}] - Downloaded: {self.LOG_DDL_count} images - last img: '{path}'")
+				# 		self.LOG_DDL_last = time.time()
+				# 		self.LOG_DDL_count = 0
+
+				try:
+					r = self.get_downloader().get(
+						url, headers=headers, cookies=cookies, decode=False)
+				except requests.exceptions.SSLError as e:
+					logging.warning(
+						f"SSL Error on url: {url} - {e} / Tentative {tentative}/{constants.MAX_TIMEOUT_RETRY}")
+					if tentative < constants.MAX_TIMEOUT_RETRY:
+						return self.dll(url, path, headers, cookies, counter, tentative+1)
+				except urllib3.exceptions.SSLError as e:
+					logging.warning(
+						f"SSL Error on url: {url} - {e} / Tentative {tentative}/{constants.MAX_TIMEOUT_RETRY}")
+					if tentative < constants.MAX_TIMEOUT_RETRY:
+						return self.dll(url, path, headers, cookies, counter, tentative+1)
+				except requests.exceptions.Timeout as e:
+					logging.warning(
+						f"Timeout Error on url: {url} - {e} / Tentative {tentative}/{constants.MAX_TIMEOUT_RETRY}")
+					if tentative < constants.MAX_TIMEOUT_RETRY:
+						return self.dll(url, path, headers, cookies, counter, tentative+1)
+				except requests.exceptions.HTTPError as e:
+					logging.warning(f"Http Error on url: {url} - {e}")
+				except requests.exceptions.ConnectionError as e:
+					if e.args and isinstance(e.args[0], urllib3.exceptions.ReadTimeoutError):
+						logging.warning(
+							f"Timeout Error on url: {url} - {e} / Tentative {tentative}/{constants.MAX_TIMEOUT_RETRY}")
+						if tentative < constants.MAX_TIMEOUT_RETRY:
+							return self.dll(url, path, headers, cookies, counter, tentative+1)
+					else:
+						logging.warning(
+							f"Error Connecting on url: {url} - {e}")
+				except requests.exceptions.RequestException as e:
+					logging.warning(f"Error on url: {url} - {e}")
+				except Exception as e:
+					if url in str(e):
+						logging.warning(f"Error: {e}")
+					else:
+						logging.warning(f"Error on url: {url} - {e}")
+				else:
+					if constants.LOG_DDL_FULL:
+						logging.info(f"Downloaded: {url}")
+					with open(path, 'wb') as f:
+						f.write(r)
+		finally:
+			if counter is not None:
+				counter.remove()
+
+	@classmethod
+	def create_archives(self, title, images_path, chapter_idx, chapter_data, chapters_count, counter=None):
+		if len(chapter_data) == 0:
+			# Ignore if no images found
+			return
+
+		if counter is not None:
+			# counter.wait()  # Wait for at least one thread to start
+			counter.join()  # Wait until all threads are done
+
+		# Get archive path
+		# archive_name = f'{title}-{chapter_idx.zfill(len(str(chapters_count)))}.cbz'
+		archive_name = f'{title}-{chapter_idx}.cbz'
+		archive_path = os.path.join(
+			constants.OUTPUT,
+			title,
+			"archives",
+			archive_name)
+
+		# Create chapter folder and get existing files
+		if not os.path.exists(images_path):
+			try:
+				os.mkdir(images_path)
+			except FileExistsError:
+				# Another thread has already created the folder
+				pass
+			files = set()
+		else:
+			files = set(os.listdir(images_path))
+
+		# Check if all images exists
+		complete = True
+		for img_data in chapter_data:
+			file = self.format_text(img_data['desc']) + ".jpg"
+			if file not in files:
+				complete = False
+				break
+
+		# Check if all images have been downloaded
+		if complete:
+			# Create archive if not exists
+			if os.path.exists(archive_path):
+				validated = self.validate_archive(
+					images_path,
+					archive_path,
+					chapter_data
+				)
+			else:
+				validated = False
+
+			if not validated:
+				if constants.LOG_ARCHIVE:
+					logging.info(
+						f"Writing archive {chapter_idx}/{chapters_count}: {archive_path}")
+
+				with zipfile.ZipFile(
+						file=archive_path,
+						mode='w',
+						compression=zipfile.ZIP_DEFLATED,
+						allowZip64=True,
+						compresslevel=9
+				) as z:
+					padding = len(str(len(chapter_data)))
+					for i, img_data in enumerate(chapter_data):
+						file = self.format_text(img_data['desc']) + ".jpg"
+						path = os.path.join(images_path, file)
+						arcname = str(i).zfill(padding) + '.jpg'
+						z.write(path, arcname=arcname)
+
+						# os.remove(path) - TODO - Image is redownloaded
+
+		validated = self.validate_archive(
+			images_path, archive_path, chapter_data)
+		if not validated:
+			logging.warning(f'Archive {archive_path} is invalid / corrupted!')
+
+	@classmethod
+	def validate_archive(self, images_path, archive_path, chapter_data):
+		if len(chapter_data) == 0:
+			# Ignore if no images found
+			return False
+
+		# Check if chapter folder exists
+		if not os.path.exists(images_path):
+			return False
+
+		image_files = set(os.listdir(images_path))
+
+		# Check if all images exists
+		for img_data in chapter_data:
+			file = self.format_text(img_data['desc']) + ".jpg"
+			if file not in image_files:
+				return False
+
+		# Check if archive exists
+		if not os.path.exists(archive_path):
+			return False
+
+		try:
+			with zipfile.ZipFile(file=archive_path, mode='r') as z:
+				if len(chapter_data) != len(z.namelist()):
+					return False
+		except zipfile.BadZipFile:
+			return False
+
+		return True
+
+	@classmethod
+	def format_text(self, text):
+		return ''.join(l for l in text if l.isalnum() or l in " _-.").rstrip('.').strip()
 
 
 if __name__ == "__main__":
-	url = "https://lelscans.net/mangas/fairy-tail/{chapter:02d}/{episode}.jpg"
-	url = "https://lelscans.net/mangas/solo-leveling/{chapter}/{episode}.jpg"
-	fields = {
-		"title": "Solo-Leveling",
-		"chapter": (1, 179),
-		"episode": (1, 100)
-	}
+	dll = MangaDownloader()
 
-	# with IteratorDownloader(url, fields) as i:
-	# 	pass
-
-	with MangaDownloader(data_list) as m:
-		pass
+	dll.download(data_list)

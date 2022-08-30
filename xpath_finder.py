@@ -1,17 +1,28 @@
-import socket
 import random
+import socket
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 class XpathFinder():
 	def __init__(self):
-		executable_path = r'C:\Program Files\geckodriver\geckodriver.exe'
-		opts = webdriver.FirefoxOptions()
-		# opts.headless = True
-		self.driver = webdriver.Firefox(executable_path=executable_path,options=opts)
+		
+		options = Options()
+		options.add_argument("start-maximized")
+		options.add_argument("--log-level=2")
+		# options.add_experimental_option("excludeSwitches", ["enable-logging"])
+		self.driver = webdriver.Chrome(service=Service(
+			ChromeDriverManager().install()), options=options)
 		self.driver.implicitly_wait(15)
+
+		# executable_path = r'C:\Program Files\geckodriver\geckodriver.exe'
+		# opts = webdriver.FirefoxOptions()
+		# self.driver = webdriver.Firefox(executable_path=executable_path,options=opts)
+		# self.driver.implicitly_wait(15)
 	
 	def find_element(self, url, elements):
 		self.driver.get(url)

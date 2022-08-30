@@ -10,8 +10,8 @@ if False:
 	}
 
 	urls = [
-		('https://www.webtoons.com/en/fantasy/1hp-club/list?title_no=2960', 2),
-		('https://www.webtoons.com/en/action/the-gamer/list?title_no=88', 10),
+		# ('https://www.webtoons.com/en/fantasy/1hp-club/list?title_no=2960', 2),
+		# ('https://www.webtoons.com/en/action/the-gamer/list?title_no=88', 10),
 	]
 
 	data_global = {
@@ -85,7 +85,8 @@ if False:
 
 if True:
 	headers = {
-		'Referer': 'https://readmanganato.com/'
+		'Referer': 'https://readmanganato.com/',
+		# 'Cookie': 'content_server=server2'
 	}
 
 	urls = [
@@ -112,6 +113,17 @@ if True:
 		"https://readmanganato.com/manga-bt978676", # Apotheosis
 		"https://readmanganato.com/manga-fr982926", # Rebirth Of The Urban Immortal Cultivator
 		"https://readmanganato.com/manga-dk980967", # My Wife Is A Demon Queen
+		"https://readmanganato.com/manga-nk991345", # Trapped In The Academy's Eroge
+		"https://readmanganato.com/manga-nk990919", # Swordmaster’S Youngest Son
+		"https://manganato.com/manga-dt981302", # Hagure Seirei Ino Shinsatsu Kiroku ~ Seijo Kishi-Dan To Iyashi No Kamiwaza ~
+		"https://readmanganato.com/manga-hu985229", # The Great Mage Returns After 4000 Years
+		"https://readmanganato.com/manga-ha984983", # Shijou Saikyou Orc-San No Tanoshii Tanetsuke Harem Zukuri
+		"https://readmanganato.com/manga-nd990912", # Sleeping Ranker
+		"https://readmanganato.com/manga-dg980989", # The Beginning After The End
+		"https://readmanganato.com/manga-gr983826", # Magic Emperor
+		"https://readmanganato.com/manga-nv990430", # The Weakest Occupation "blacksmith," But It's Actually The Strongest
+		"https://readmanganato.com/manga-ni990665", # The Hero Returns
+		"https://readmanganato.com/manga-ik985693", # Nano Machine
 	]
 
 	data_global = {
@@ -124,7 +136,8 @@ if True:
 		},
 		'img_url': 'src',
 		'img_desc': 'alt',
-		'headers': headers
+		'headers': headers,
+		# 'cookies': cookies
 	}
 
 	data_list.extend([({'url': url} | data_global) for url in urls])
