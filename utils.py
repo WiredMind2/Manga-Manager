@@ -107,6 +107,9 @@ class DummyValue:
 	def __init__(self, typecode, value) -> None:
 		self.value = value
 
+class ParseError(Exception):
+	pass
+
 
 def returnProcess(que, func, args=[], kwargs={}):
 	# Wrapper function to get a process with output

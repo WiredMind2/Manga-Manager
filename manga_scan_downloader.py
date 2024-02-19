@@ -1,7 +1,9 @@
 from datetime import datetime
+import glob
 import logging
 import os
 import re
+import shutil
 import sys
 import threading
 import time
@@ -21,7 +23,7 @@ USE_LOCAL_SERVER = sys.platform == 'win32'
 if USE_LOCAL_SERVER:
 	DATA_URL = "http://localhost:8080"
 else:
-	DATA_URL = "https://tetrazero.com/manga_manager/viewer/datalist.json"
+	DATA_URL = "http://localhost:8002/viewer/datalist.json"
 
 
 class MangaDownloader:
@@ -77,6 +79,8 @@ class MangaDownloader:
 		for data in data_list:
 			try:
 				folder = self.handle_data(data)
+			except utils.ParseError:
+				pass
 			except Exception as e:
 				# Should never reach here, but just in case, log the error
 				logging.error(f'Unhandled error on url {data["url"]}: {e}')
@@ -100,9 +104,11 @@ class MangaDownloader:
 		return self.handle_data(data)
 
 	def handle_data(self, manga):
-		data = self.parse_main_page(manga)
-		if data is None:
-			return
+		try:
+			data = self.parse_main_page(manga)
+		except utils.ParseError:
+			raise
+
 		title = data["title"]
 		chapter_links = data["links"]
 
@@ -120,7 +126,7 @@ class MangaDownloader:
 		)
 		self.log(utils.Status.DOWNLOAD, manga["url"], title)
 
-
+		#region Metadata
 		# Handle metadata
 		folder = os.path.normpath(
 			os.path.join(constants.OUTPUT, title, "metadata")
@@ -162,6 +168,7 @@ class MangaDownloader:
 				else:
 					self.dll(**kwargs)
 
+		#endregion
 
 		# Parse chapter pages
 		self.log(utils.Status.PARSE, manga["url"], 3, chapters_count)
@@ -214,14 +221,14 @@ class MangaDownloader:
 		# Initialize thread counter for archive thread
 		counter = utils.Counter(manager=self.manager)
 
-		folder = os.path.normpath(
-			os.path.join(
-				constants.OUTPUT,
-				title,
-				"images",
-				str(i).zfill(5) + " - " + self.format_text(chapter_data[0]["path"]),
-			)
-		)
+		folder = self.get_path(title, i, chapter_data[0]["path"])
+		
+		root, leaf = os.path.split(folder)
+		paths = glob.glob(os.path.join(root, leaf[:7] + '*'))
+		for path in paths:
+			if path != folder:
+				shutil.rmtree(path)
+				pass
 
 		# Download images
 		for img_data in chapter_data:
@@ -393,12 +400,15 @@ class MangaDownloader:
 		)
 		if page is None:
 			self.log(utils.Status.PARSE, data["url"], -1)
-			return None
+			return {}, None
 
 		# Parse main page
 		self.log(utils.Status.PARSE, data["url"], 1)
 
-		out = self.parser.main_page(data, page)
+		try:
+			out = self.parser.main_page(data, page)
+		except utils.ParseError:
+			raise
 
 		out["title"] = self.format_text(out["title"])
 
@@ -594,6 +604,19 @@ class MangaDownloader:
 		finally:
 			if counter is not None:
 				counter.remove()
+
+	@classmethod
+	def get_path(self, title=None, index=None, chapter_path=None):
+		out = [constants.OUTPUT]
+		if title is not None:
+			out.append(title)
+			if index is not None:
+				out.append('images')
+				out.append(str(index).zfill(5) + " - " + self.format_text(chapter_path)) # chapter_data[0]["path"]
+		
+		return os.path.normpath(
+			os.path.join(*out)
+		)
 
 	@classmethod
 	def create_archives(

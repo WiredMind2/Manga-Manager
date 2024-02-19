@@ -1,0 +1,6 @@
+{
+    "HOSTNAME": "0.0.0.0",
+    "SERVERPORT": 5874,
+    "SSL_CERT": "/home/william/Documents/Mangas/cert.pem",
+    "MANGA_ROOT": "/home/william/Documents/Mangas/data"
+}

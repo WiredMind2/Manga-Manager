@@ -2,6 +2,7 @@ import logging
 from urllib.parse import urljoin
 
 import constants
+from utils import ParseError
 
 if constants.USE_PARSER == "lxml":
 	import lxml.html
@@ -19,7 +20,8 @@ class LxmlParser:
 		p_tree = etree.ElementTree(lxml.html.fromstring(page))
 		main_list = p_tree.xpath(data['xpth']['main_list'])
 		if len(main_list) == 0:
-			print('ERROR - Main list not found!')
+			print(f'ERROR - Main list not found! Url: {data["url"]}')
+			raise ParseError
 		main_list = main_list[0]
 
 		links = {}

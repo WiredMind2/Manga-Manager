@@ -1,11 +1,11 @@
 [
     {
-        "url": "https://chapmanganato.com/manga-je987087",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-je987087",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -13,16 +13,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-ec981811",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-ec981811",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -30,16 +30,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-ko987549",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-ko987549",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -47,16 +47,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-hu985229",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-hu985229",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -64,16 +64,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-ex982080",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-ex982080",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -81,16 +81,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-gt984176",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-gt984176",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -98,16 +98,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-dg980989",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-dg980989",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -115,16 +115,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-nk990919",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-nk990919",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -132,16 +132,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://manganato.com/manga-dt981302",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -149,16 +149,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-gr983826",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-gr983826",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -166,16 +166,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-nv990430",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-nv990430",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -183,16 +183,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-ni990665",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-ni990665",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -200,16 +200,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-td996812",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://manganato.com/manga-td996812",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -217,16 +217,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://manganato.com/manga-on992096",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -234,16 +234,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://manganato.com/manga-gm984221",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -251,16 +251,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://manganato.com/manga-qz993682",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -268,16 +268,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://manganato.com/manga-oq991399",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -285,16 +285,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://manganato.com/manga-eq981551",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -302,16 +302,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://manganato.com/manga-om991369",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -319,16 +319,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-jy987133",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -336,16 +336,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-lt989154",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -353,16 +353,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-fz982434",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -370,16 +370,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-fo982397",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -387,16 +387,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-cs979527",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -404,16 +404,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-kt987876",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -421,16 +421,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-ih985916",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -438,16 +438,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-ht984802",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -455,16 +455,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-nt991076",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -472,16 +472,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-nd991160",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -489,16 +489,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-nh990916",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -506,16 +506,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-om991521",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -523,16 +523,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-bu979277",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -540,16 +540,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-mu989777",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -557,16 +557,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-lc988811",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -574,16 +574,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-mp989824",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -591,16 +591,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-mt989602",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -608,16 +608,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-jn986422",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -625,16 +625,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-um971369",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -642,16 +642,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-to951549",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -659,16 +659,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-us971827",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -676,16 +676,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-oa952283",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -693,16 +693,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-de980539",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -710,16 +710,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-ai977917",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -727,16 +727,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-dr980852",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -744,16 +744,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-dn980422",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -761,16 +761,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-kx951980",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -778,16 +778,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-bc978911",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -795,16 +795,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-em981495",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-em981495",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -812,16 +812,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-va953509",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-va953509",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -829,16 +829,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
-        "url": "https://chapmanganato.com/manga-to970571",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "url": "https://readmanganato.com/manga-to970571",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -846,16 +846,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.com/manga-in985422",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -863,16 +863,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://manganato.com/manga-kg988163",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -880,16 +880,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.to/manga-ln988396",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -897,16 +897,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://manganato.com/manga-ou952777",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -914,16 +914,16 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
     },
     {
         "url": "https://chapmanganato.to/manga-qj952992",
-        "title": "//div[contains(@class, \"story-info-right\")]/h1",
-        "cover": "//span[contains(@class, \"info-image\")]/img",
+        "title": "/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/h1",
+        "cover": "/html/body/div[1]/div[3]/div[1]/div[2]/div[1]/span[1]/img",
         "description": "//*[@id=\"panel-story-info-description\"]/text()",
         "xpth": {
-            "main_list": "//ul[contains(@class, \"row-content-chapter\")]",
+            "main_list": "/html/body/div[1]/div[3]/div[1]/div[3]/ul",
             "main_list_item": "a",
             "img_list": "//div[contains(@class, \"container-chapter-reader\")]",
             "img_list_item": "img"
@@ -931,21 +931,7 @@
         "img_url": "src",
         "img_desc": "alt",
         "headers": {
-            "Referer": "https://chapmanganato.com/"
+            "Referer": "https://readmanganato.com/"
         }
-    },
-    {
-        "url": "https://w12.readgrandblue.com/",
-        "title": "//header/h1",
-        "description": "//main/article/div/div/p[1]/strong/text()",
-        "xpth": {
-            "main_list": "//*[@id=\"ceo_thumbnail_widget-2\"]",
-            "main_list_item": "div[1]/a",
-            "img_list": "//main/article/div/div",
-            "img_list_item": "p/img"
-        },
-        "img_url": "src",
-        "img_desc": "alt",
-        "headers": {}
     }
 ]

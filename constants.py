@@ -15,7 +15,7 @@ HASH_FUNCTION = "b64"
 
 # Folder output
 if platform == 'linux':
-    OUTPUT = '~/Documents/Mangas/data'
+    OUTPUT = '/Mangas'
 else:
 	OUTPUT = "~/Documents/webtoons"
 OUTPUT = os.path.normpath(os.path.expanduser(OUTPUT))
