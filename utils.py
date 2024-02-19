@@ -85,6 +85,29 @@ class Counter:
 			return self.counter.value == 0
 
 
+class dummyManager:
+	# Dummy multiprocessing.Manager
+	def __init__(self) -> None:
+		pass
+
+	def Queue(self,*args, **kwargs):
+		return queue.Queue(*args, **kwargs)
+
+	def Lock(self, *args, **kwargs):
+		return threading.Lock(*args, **kwargs)
+
+	def Value(self, *args, **kwargs):
+		return DummyValue(*args, **kwargs)
+
+	def Event(self, *args, **kwargs):
+		return threading.Event(*args, **kwargs)
+
+class DummyValue:
+	# Dummy multiprocessing.Manager.Value
+	def __init__(self, typecode, value) -> None:
+		self.value = value
+
+
 def returnProcess(que, func, args=[], kwargs={}):
 	# Wrapper function to get a process with output
 	p = multiprocessing.Process(

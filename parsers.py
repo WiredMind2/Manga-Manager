@@ -17,7 +17,10 @@ else:
 class LxmlParser:
 	def main_page(self, data, page):
 		p_tree = etree.ElementTree(lxml.html.fromstring(page))
-		main_list = p_tree.xpath(data['xpth']['main_list'])[0]
+		main_list = p_tree.xpath(data['xpth']['main_list'])
+		if len(main_list) == 0:
+			print('ERROR - Main list not found!')
+		main_list = main_list[0]
 
 		links = {}
 		for c in main_list:
@@ -33,12 +36,25 @@ class LxmlParser:
 
 			link = urljoin(data['url'], link)
 
-			name = child.text_content()
+			name = child.text_content().strip()
 			links[name] = link
 
-		title = p_tree.xpath(data['title'])[0].text
+		title = p_tree.xpath(data['title'])[0].text.strip()
+		if 'cover' in data:
+			cover = p_tree.xpath(data['cover'])[0].get(data.get('cover_url', None) or data.get('img_url', None) or 'src')
+			if cover is None:
+				cover = p_tree.xpath(data['cover'])[0].get('src')
+			if cover is not None:
+				cover = cover.strip()
+		else:
+			cover = None
 
-		return title, links
+		if 'description' in data:
+			desc = ''.join(p_tree.xpath(data['description'])).strip()
+		else:
+			desc = None
+
+		return {'title': title, 'cover': cover, 'desc': desc, 'links': links}
 
 	def chapter(self, page, path, data):
 		l_tree = etree.ElementTree(lxml.html.fromstring(page))
@@ -47,8 +63,8 @@ class LxmlParser:
 		for i, child in enumerate(root.xpath(data['xpth']['img_list_item'])):
 			if child.tag == 'img':
 				tmp = {
-					'url': child.get(data['img_url']),
-					'desc': str(i).zfill(5) + "-" + child.get(data['img_desc']),
+					'url': child.get(data['img_url']).strip(),
+					'desc': str(i).zfill(5) + "-" + child.get(data['img_desc'], 'Unknown'),
 					'path': path
 				}
 

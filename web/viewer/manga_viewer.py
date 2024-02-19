@@ -154,7 +154,7 @@ class ViewerUtils():
 
 class LocalViewer(ViewerUtils):
 	def __init__(self, files=None, root=None, save=None):
-		super.__init__(files=files, root=root, save=save)
+		super().__init__(files=files, root=root, save=save)
 
 		self.width = None
 
@@ -671,10 +671,10 @@ class HTTPViewer(BaseServer):
 server = HTTPViewer
 
 if __name__ == "__main__":
-	print("Content-Type: text/plain")    # HTML is following
-	print() 
-	# root = "C:/Users/moi/Documents/Series/Webtoons/Versatile Mage"
-	# files = [os.path.normpath(os.path.join(root, f)) for f in os.listdir(root)]
-	# LocalViewer(save="save_data.json")
+	root = "C:/Users/William/Documents/webtoons/Solo leveling/archives"
+	files = [os.path.normpath(os.path.join(root, f)) for f in os.listdir(root)]
+	LocalViewer(save="save_data.json")
 
-	start_server(instance=HTTPViewer)
+	# print("Content-Type: text/plain")    # HTML is following
+	# print() 
+	# start_server(instance=HTTPViewer)

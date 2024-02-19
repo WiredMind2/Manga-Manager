@@ -6,11 +6,13 @@ import re
 import threading
 
 try:
-	from manga_scan_downloader import IteratorDownloader, MangaDownloader
+	from manga_scan_downloader import MangaDownloader
+	from iterator_downloader import IteratorDownloader
 except ModuleNotFoundError:
 	import sys
 	sys.path.append(os.path.normpath(__file__ + '\\..\\..\\..'))
-	from manga_scan_downloader import IteratorDownloader, MangaDownloader
+	from manga_scan_downloader import MangaDownloader
+	from iterator_downloader import IteratorDownloader
 
 try:
 	from ..server import BaseServer, start_server
