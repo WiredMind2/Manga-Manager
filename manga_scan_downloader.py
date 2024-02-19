@@ -89,14 +89,18 @@ class MangaDownloader:
 				if folder:
 					folders.append(folder)
 
-		self.stop_threads()
-
 		if constants.DELETE_UNKNOWN:
 			logging.info("Deleting unknown folders")
 			folders = set(folders)
 			for sub in os.listdir(constants.OUTPUT):
 				if sub not in folders:
 					logging.warning(f'Unknown folder: {sub}')
+					try:
+						shutil.rmtree(os.path.join(constants.OUTPUT, sub))
+					except Exception as e:
+						logging.error(f'Couldn\'t delete folder: {sub}')
+
+		self.stop_threads()
 
 		logging.info("Done!")
 
@@ -196,6 +200,7 @@ class MangaDownloader:
 				"chapters_count": chapters_count,
 			}
 			self.chapter_queue.put(kwargs)
+
 
 		for t in threads:
 			t.join()
