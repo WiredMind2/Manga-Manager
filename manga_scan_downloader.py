@@ -23,7 +23,7 @@ USE_LOCAL_SERVER = sys.platform == 'win32'
 if USE_LOCAL_SERVER:
 	DATA_URL = "http://localhost:8080"
 else:
-	DATA_URL = "http://localhost:8002/viewer/datalist.json"
+	DATA_URL = "https://manga.tetrazero.com/viewer/datalist.json"
 
 
 class MangaDownloader:
@@ -237,6 +237,9 @@ class MangaDownloader:
 
 		# Download images
 		for img_data in chapter_data:
+			if img_data['url'] is None or img_data['url'] == '':
+				continue
+
 			self.log(utils.Status.IMAGES, link, img_data["url"], 0)
 
 			# Get image path
